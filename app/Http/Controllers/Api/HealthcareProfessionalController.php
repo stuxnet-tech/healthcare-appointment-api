@@ -3,17 +3,21 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\HealthcareProfessional;
-use Illuminate\Http\Request;
+use App\Repositories\HealthcareProfessionalRepository;
+use Illuminate\Http\JsonResponse;
 
 class HealthcareProfessionalController extends Controller
 {
-    public function index()
+    protected $healthcareProfessionalRepository;
+
+    public function __construct(HealthcareProfessionalRepository $healthcareProfessionalRepository)
     {
-        $professionals = HealthcareProfessional::all();
-        
-        return response()->json([
-            'data' => $professionals
-        ]);
+        $this->healthcareProfessionalRepository = $healthcareProfessionalRepository;
+    }
+
+    public function index(): JsonResponse
+    {
+        $professionals = $this->healthcareProfessionalRepository->all();
+        return response()->json(['data' => $professionals]);
     }
 }
