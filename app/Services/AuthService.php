@@ -23,11 +23,11 @@ class AuthService
 
         return [
             'user' => $user,
-            'token' => $user->createToken('auth_token')->plainTextToken
+            'message' => 'User registered successfully.',
         ];
     }
 
-    public function login(array $data): string
+    public function login(array $data): array
     {
         $user = $this->userRepository->findByEmail($data['email']);
 
@@ -37,6 +37,14 @@ class AuthService
             ]);
         }
 
-        return $user->createToken('auth_token')->plainTextToken;
+        $accessToken = $user->createToken('authToken', ['*'], now()->addDays(30));
+        $plainAccessToken = $accessToken->plainTextToken;
+        $accessTokenExpiresAt = $accessToken->accessToken->expires_at;
+
+        return [
+            'user' => $user,
+            'token' => $plainAccessToken,
+            'expires_at' => $accessTokenExpiresAt,
+        ];
     }
 }
