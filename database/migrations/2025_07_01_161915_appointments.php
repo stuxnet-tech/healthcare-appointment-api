@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('appointments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('healthcare_professional_id')->constrained('healthcare_professionals')->onDelete('cascade');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->onDelete('cascade');
+            $table->foreignUuid('healthcare_professional_id')->constrained('healthcare_professionals')->onDelete('cascade');
             $table->dateTime('appointment_start_time');
             $table->dateTime('appointment_end_time');
             $table->enum('status', ['booked', 'completed', 'cancelled'])->default('booked');

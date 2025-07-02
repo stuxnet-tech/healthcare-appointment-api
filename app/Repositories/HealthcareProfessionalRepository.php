@@ -11,12 +11,7 @@ class HealthcareProfessionalRepository
         return HealthcareProfessional::all();
     }
 
-    public function find(int $id): ?HealthcareProfessional
-    {
-        return HealthcareProfessional::find($id);
-    }
-
-    public function isTimeSlotAvailable(int $professionalId, string $startTime, string $endTime): bool
+    public function isTimeSlotAvailable(string $professionalId, string $startTime, string $endTime): bool
     {
         return HealthcareProfessional::find($professionalId)
             ->appointments()

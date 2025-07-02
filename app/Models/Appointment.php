@@ -2,20 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuid;
 
-    protected $fillable = [
-        'user_id',
-        'healthcare_professional_id',
-        'appointment_start_time',
-        'appointment_end_time',
-        'status'
-    ];
+    protected $guarded = ['id'];
 
     protected $casts = [
         'appointment_start_time' => 'datetime',

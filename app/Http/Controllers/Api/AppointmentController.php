@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AppointmentCompleteRequest;
 use App\Http\Requests\AppointmentStoreRequest;
+use App\Models\Appointment;
 use App\Services\AppointmentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,17 +38,17 @@ class AppointmentController extends Controller
         ], 201);
     }
 
-    public function destroy(Request $request, int $id): JsonResponse
+    public function destroy(Request $request, Appointment $appointment): JsonResponse
     {
-        $this->appointmentService->cancelAppointment($request->user()->id, $id);
+        $this->appointmentService->cancelAppointment($request->user()->id, $appointment);
         return response()->json(['message' => 'Appointment cancelled successfully.']);
     }
 
-    public function complete(AppointmentCompleteRequest $request): JsonResponse
+    public function complete(AppointmentCompleteRequest $request, Appointment $appointment): JsonResponse
     {
         $this->appointmentService->completeAppointment(
             $request->user()->id,
-            $request->appointment->id
+            $appointment
         );
 
         return response()->json(['message' => 'Appointment marked as completed.']);

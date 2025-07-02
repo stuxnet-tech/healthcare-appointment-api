@@ -20,7 +20,7 @@ class AppointmentService
         $this->healthcareProfessionalRepository = $healthcareProfessionalRepository;
     }
 
-    public function bookAppointment(int $userId, array $data): Appointment
+    public function bookAppointment(string $userId, array $data): Appointment
     {
         if (!$this->healthcareProfessionalRepository->isTimeSlotAvailable(
             $data['healthcare_professional_id'],
@@ -38,16 +38,14 @@ class AppointmentService
         return $this->appointmentRepository->create($appointmentData);
     }
 
-    public function getUserAppointments(int $userId)
+    public function getUserAppointments(string $userId)
     {
         return $this->appointmentRepository->getUserAppointments($userId);
     }
 
-    public function cancelAppointment(int $userId, int $appointmentId): void
+    public function cancelAppointment(string $userId, Appointment $appointment): void
     {
-        $appointment = $this->appointmentRepository->find($appointmentId);
-
-        if (!$appointment || $appointment->user_id !== $userId) {
+        if ($appointment->user_id !== $userId) {
             throw new ModelNotFoundException('Appointment not found or unauthorized.');
         }
 
@@ -58,11 +56,9 @@ class AppointmentService
         $this->appointmentRepository->updateStatus($appointment, 'cancelled');
     }
 
-    public function completeAppointment(int $userId, int $appointmentId): void
+    public function completeAppointment(string $userId, Appointment $appointment): void
     {
-        $appointment = $this->appointmentRepository->find($appointmentId);
-
-        if (!$appointment || $appointment->user_id !== $userId) {
+        if ($appointment->user_id !== $userId) {
             throw new ModelNotFoundException('Appointment not found or unauthorized.');
         }
 
