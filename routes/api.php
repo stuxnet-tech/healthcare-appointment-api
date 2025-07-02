@@ -13,8 +13,10 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     
     Route::get('/healthcare-professionals', [HealthcareProfessionalController::class, 'index']);
     
-    Route::get('/appointments', [AppointmentController::class, 'index']);
-    Route::post('/appointments', [AppointmentController::class, 'store']);
-    Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
-    Route::patch('/appointments/{appointment}/complete', [AppointmentController::class, 'complete']);
+    Route::prefix('appointments')->group(function () {
+        Route::get('/', [AppointmentController::class, 'index']);
+        Route::post('/', [AppointmentController::class, 'store']);
+        Route::delete('/{appointment}', [AppointmentController::class, 'destroy']);
+        Route::patch('/{appointment}/complete', [AppointmentController::class, 'complete']);
+    });
 });
