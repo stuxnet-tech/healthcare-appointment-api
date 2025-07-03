@@ -53,7 +53,8 @@ A RESTful API for booking and managing healthcare appointments, built with Larav
 5. **Run migrations and seeders:**
 
    ```bash
-   php artisan migrate --seed
+   php artisan migrate
+   php artisan db:seed --class=HealthcareProfessionalSeeder
 6. **Start the development server:**
 
    ```bash
