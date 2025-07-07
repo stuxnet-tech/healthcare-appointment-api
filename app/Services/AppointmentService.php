@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\TimeSlotUnavailableException;
 use App\Models\Appointment;
 use App\Repositories\AppointmentRepository;
 use App\Repositories\HealthcareProfessionalRepository;
@@ -27,7 +28,7 @@ class AppointmentService
             $data['appointment_start_time'],
             $data['appointment_end_time']
         )) {
-            throw new \Exception('The selected time slot is not available.', 409);
+            throw new TimeSlotUnavailableException();
         }
 
         $appointmentData = array_merge($data, [

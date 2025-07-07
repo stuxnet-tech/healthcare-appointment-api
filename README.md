@@ -45,6 +45,8 @@ A RESTful API for booking and managing healthcare appointments, built with Larav
 4. **Update .env with your database credentials:**
 
    ```bash
+    APP_DEBUG=false
+
     DB_DATABASE=your_db_name
     DB_USERNAME=your_db_user
     DB_PASSWORD=your_db_password

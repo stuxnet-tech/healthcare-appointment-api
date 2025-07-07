@@ -16,8 +16,8 @@ class HealthcareProfessionalRepository
         return HealthcareProfessional::find($professionalId)
             ->appointments()
             ->where(function ($query) use ($startTime, $endTime) {
-                $query->whereBetween('appointment_start_time', [$startTime, $endTime])
-                    ->orWhereBetween('appointment_end_time', [$startTime, $endTime]);
+                $query->where('appointment_start_time', '<', $endTime)
+                    ->where('appointment_end_time', '>', $startTime);
             })
             ->where('status', 'booked')
             ->doesntExist();
